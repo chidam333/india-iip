@@ -1,25 +1,18 @@
 import { useEffect, useState } from 'react'
-import stateCodeJson from './assets/stateCode.json'
-function IndiaSVG({states}) {
-
+function IndiaSVG({states,render,delState}) {
     let colorChange = ()=>{
+        let delSt = document.querySelector(`#${delState}`)
+        if(delSt) delSt.style.cssText = "stroke: rgb(0, 0, 0); fill-rule: nonzero; fill: white; fill-opacity: 1;"
         for(const state of states){
             let s = document.querySelector(`#${state}`)
-            console.log({s})
             if(s){
                 s.style.cssText = "stroke: rgb(0, 0, 0); fill-rule: nonzero; fill: red; fill-opacity: 1;"
             }
         }
     }
     useEffect(()=>{
-        for(const state of states){
-            let s = document.querySelector(`#${state}`)
-            console.log({s})
-            if(s){
-                s.style.cssText = "stroke: rgb(0, 0, 0); fill-rule: nonzero; fill: red; fill-opacity: 1;"
-            }
-        }
-    },[states])
+        colorChange()
+    },[render])
     return (
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style={{height:"100vh"}} viewBox="0 0 2500 2843" version="1.1">
         <g id="surface1">

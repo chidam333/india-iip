@@ -6,23 +6,25 @@ import stateCodeJson from './assets/stateCode.json'
 import IndiaSVG from './IndiaSVG.jsx'
 function App() {
   const [curState, setState] = useState("India")
+  const [delState, setdelState] = useState("India")
   const [states,setStates] = useState(new Set())
   const [curLocation,setLocation] = useState("")
+  const [render,setRender] = useState(0)
   let indianSouth = [93.828,6.753]
   let indianNorth = [74.70,37.08]
   let indianWest = [68.18,23.72]
   let indianEast = [97.40,28.18]
-  let fill = (clientX,clientY) =>{
+  let fill = () =>{
     let code = stateCodeJson[curState]
-    console.log({code,curState})
+    let newState = new Set(states)
     if(states.has(code)){
-      console.log({states})
-      states.delete(code)
+      newState.delete(code)
+      setdelState(code)
     }else{
-      states.add(code)
+      newState.add(code)
     }
-    setStates(states)
-    console.log({states})
+    setStates(newState)
+    setRender(!render)
   }
   let calculateLatLon = (clientX,clientY) =>{
     let mapHeight = document.querySelector(".map").clientHeight
@@ -76,7 +78,7 @@ function App() {
   }
   return (
     <div className="w-[100vw] flex mapContain">
-      <div className="map block my-auto" onMouseMove={e=>{calculateLatLon(e.clientX,e.clientY)}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states}/></div>
+      <div className="map block my-auto" onMouseMove={e=>{calculateLatLon(e.clientX,e.clientY)}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states} render={render} delState={delState}/></div>
       <h1>{curState}</h1>
     </div>
   )
