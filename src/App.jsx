@@ -17,9 +17,11 @@ function App() {
   let indianEast = [97.40,28.18]
   useEffect(()=>{
     localstates = localStorage.getItem("states")
-    localstates = localstates.split(",")
-    for(const state of localstates){
-      states.add(state)
+    if(localstates){
+      localstates = localstates.split(",")
+      for(const state of localstates){
+        states.add(state)
+      }
     }
   },[])
   let is_touchscreen = ()=>{
