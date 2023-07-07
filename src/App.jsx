@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import india from "./assets/india.svg"
+import { useEffect, useState } from 'react'
 import * as indiaGeoJson from './assets/india_states.json'
 import './styles.css'
 import stateCodeJson from './assets/stateCode.json'
 import IndiaSVG from './IndiaSVG.jsx'
 function App() {
+  let localstates;
+
   const [curState, setState] = useState("India")
   const [delState, setdelState] = useState("India")
   const [states,setStates] = useState(new Set())
@@ -14,6 +15,13 @@ function App() {
   let indianNorth = [74.70,37.08]
   let indianWest = [68.18,23.72]
   let indianEast = [97.40,28.18]
+  useEffect(()=>{
+    localstates = localStorage.getItem("states")
+    localstates = localstates.split(",")
+    for(const state of localstates){
+      states.add(state)
+    }
+  },[])
   let is_touchscreen = ()=>{
     return ( 'ontouchstart' in window ) ||
     ( navigator.maxTouchPoints > 0 ) ||
@@ -35,6 +43,8 @@ function App() {
       newState.add(code)
     }
     setStates(newState)
+    const store = [...newState]
+    localStorage.setItem("states",store)
     setRender(!render)
   }
   let calculateLatLon = (clientX,clientY) =>{
