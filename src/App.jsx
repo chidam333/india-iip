@@ -19,8 +19,12 @@ function App() {
     localstates = localStorage.getItem("states")
     if(localstates){
       localstates = localstates.split(",")
-      for(const state of localstates){
-        states.add(state)
+      for(let i =0;i<localstates.length;i++){
+        let time = 200*i
+        setTimeout(() => {
+          states.add(localstates[i])
+          setRender(i%2)
+        }, time);
       }
     }
   },[])
