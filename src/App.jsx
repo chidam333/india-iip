@@ -14,8 +14,18 @@ function App() {
   let indianNorth = [74.70,37.08]
   let indianWest = [68.18,23.72]
   let indianEast = [97.40,28.18]
-  let fill = () =>{
-    let code = stateCodeJson[curState]
+  let is_touchscreen = ()=>{
+    return ( 'ontouchstart' in window ) ||
+    ( navigator.maxTouchPoints > 0 ) ||
+    ( navigator.msMaxTouchPoints > 0 );
+  }
+  let fill = (clientX,clientY) =>{
+    let code;
+    if(is_touchscreen){
+      code = calculateLatLon(clientX,clientY)
+    }else{
+      code = stateCodeJson[curState]
+    }
     let newState = new Set(states)
     if(states.has(code)){
       newState.delete(code)
@@ -78,7 +88,7 @@ function App() {
   }
   return (
     <div className="w-[100vw] flex mapContain">
-      <div className="map block my-auto" onMouseMove={e=>{calculateLatLon(e.clientX,e.clientY)}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states} render={render} delState={delState}/></div>
+      <div className="map block my-auto" onMouseMove={e=>{if(!is_touchscreen){calculateLatLon(e.clientX,e.clientY)}}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states} render={render} delState={delState}/></div>
       <h1>{curState}</h1>
     </div>
   )
