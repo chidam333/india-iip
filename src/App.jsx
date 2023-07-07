@@ -21,7 +21,7 @@ function App() {
   }
   let fill = (clientX,clientY) =>{
     let code;
-    if(is_touchscreen){
+    if(is_touchscreen()){
       let state = calculateLatLon(clientX,clientY)
       code = stateCodeJson[state]
     }else{
@@ -71,7 +71,7 @@ function App() {
         if(`${lat}+${lon}`!=curLocation){
           setLocation(`${lat}+${lon}`)
           setState(`${state}`)
-          if(!is_touchscreen){
+          if(!is_touchscreen()){
             let tooltip = document.querySelector("#tooltip")
             if(tooltip==null){
               tooltip = document.createElement("div")
@@ -91,7 +91,7 @@ function App() {
   }
   return (
     <div className="w-[100vw] flex mapContain">
-      <div className="map block my-auto" onMouseMove={e=>{if(!is_touchscreen){calculateLatLon(e.clientX,e.clientY)}}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states} render={render} delState={delState}/></div>
+      <div className="map block my-auto" onMouseMove={(e)=>{if(!is_touchscreen()){calculateLatLon(e.clientX,e.clientY)}}} onClick={e=>{fill(e.clientX,e.clientY)}}><IndiaSVG states={states} render={render} delState={delState}/></div>
       <h1>{curState}</h1>
     </div>
   )
