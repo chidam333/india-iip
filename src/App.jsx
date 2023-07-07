@@ -46,7 +46,14 @@ function App() {
     }
     setStates(newState)
     const store = [...newState]
-    localStorage.setItem("states",store)
+    newState = []
+    for(const s of store){
+      if(s.length!=2){
+        continue
+      }
+      newState.push(s)
+    }
+    localStorage.setItem("states",newState)
     setRender(!render)
   }
   let calculateLatLon = (clientX,clientY) =>{
