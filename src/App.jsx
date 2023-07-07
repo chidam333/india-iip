@@ -22,7 +22,8 @@ function App() {
   let fill = (clientX,clientY) =>{
     let code;
     if(is_touchscreen){
-      code = calculateLatLon(clientX,clientY)
+      let state = calculateLatLon(clientX,clientY)
+      code = stateCodeJson[state]
     }else{
       code = stateCodeJson[curState]
     }
@@ -70,16 +71,18 @@ function App() {
         if(`${lat}+${lon}`!=curLocation){
           setLocation(`${lat}+${lon}`)
           setState(`${state}`)
-          let tooltip = document.querySelector("#tooltip")
-          if(tooltip==null){
-            tooltip = document.createElement("div")
-            let map = document.querySelector(".mapContain")
-            tooltip.setAttribute("id","tooltip")
-            map.appendChild(tooltip)
+          if(!is_touchscreen){
+            let tooltip = document.querySelector("#tooltip")
+            if(tooltip==null){
+              tooltip = document.createElement("div")
+              let map = document.querySelector(".mapContain")
+              tooltip.setAttribute("id","tooltip")
+              map.appendChild(tooltip)
+            }
+            tooltip.innerHTML = state
+            tooltip.style.left = `${clientX+18}px`
+            tooltip.style.top = `${clientY+18}px`
           }
-          tooltip.innerHTML = state
-          tooltip.style.left = `${clientX+18}px`
-          tooltip.style.top = `${clientY+18}px`
           return state
         }
       }
